@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="b3401298-d3e8-42ca-bea0-c75d8ca983b1" activeEnvironment="Default" name="WebServicesRestcountries" soapui-version="5.5.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:RestService" id="3c3cce77-4a1d-4da2-af7b-7fd238a5d241" wadlVersion="http://wadl.dev.java.net/2009/02" name="https://restcountries.com" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart=""/><con:endpoints><con:endpoint>https://restcountries.com</con:endpoint></con:endpoints><con:resource name="Lkr" path="/v3.1/currency/lkr" id="13336b88-68af-42f5-a848-c3ec6619f03a"><con:settings/><con:parameters/><con:method name="Lkr 1" id="d518f352-b562-43f4-8ebc-3d3379e5ddd5" method="GET"><con:settings/><con:parameters/><con:representation type="RESPONSE"><con:mediaType>application/json</con:mediaType><con:status>200</con:status><con:params/></con:representation><con:request name="Request 1" id="0d85eaaa-e4ec-4771-b7af-a162737946f0" mediaType="application/json"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>https://restcountries.com</con:endpoint><con:request/><con:originalUri>https://restcountries.com/v3.1/currency/lkr</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder/></con:request></con:method></con:resource></con:interface><con:testSuite id="a9c630f1-2eea-4877-96d0-696e793061d4" name="TestSuite 1"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="2ac49210-ab3c-4b21-9a11-c2d85c9ac1d4" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCase 1" searchProperties="true"><con:settings/><con:testStep type="restrequest" name="GET REQUEST" id="4bd3c067-3a95-481b-854a-56ed7cfee456"><con:settings/><con:config service="https://restcountries.com" resourcePath="/v3.1/currency/lkr" methodName="Lkr 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="GET REQUEST" id="0d85eaaa-e4ec-4771-b7af-a162737946f0" mediaType="application/json"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>https://restcountries.com</con:endpoint><con:request/><con:originalUri>https://restcountries.com/v3.1/currency/lkr</con:originalUri><con:assertion type="Simple Contains" id="46cb6b61-50c6-4737-8a84-c779b59bc88d" name="Contains"><con:configuration><token>capital</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="7db6ff2b-a25b-4a3b-9b62-1585ca2a20b0" name="Contains 1"><con:configuration><token>Sri jayawardenepura kotte</token><ignoreCase>true</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple NotContains" id="86f61a89-5c82-4485-a049-f57bd60ca02c" name="Not Contains"><con:configuration><token>colombo</token><ignoreCase>true</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="3b38dd28-18d9-4bec-9cf0-d03443b54b32" name="Script Assertion"><con:configuration/></con:assertion><con:assertion type="GroovyScriptAssertion" id="0bf0e7a4-53a7-4fea-a7b1-55666e208f7d" name="Script Assertion 1"><con:configuration/></con:assertion><con:assertion type="GroovyScriptAssertion" id="6aef381a-3fca-4456-a3ec-37c20e80cf5d" name="Script Assertion 2"><con:configuration><scriptText>import groovy.json.JsonSlurper
+
+def ResponseMessage = messageExchange.response.responseContent
+def jsonSlurper = new JsonSlurper().parseText(ResponseMessage)
+jsonSlurper.capital</scriptText></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="6d176057-caf4-43fb-a7b0-358b450fec30" name="Script Assertion 3"><con:configuration><scriptText>import groovy.json.JsonSlurper
+def ResponseMessage = messageExchange.response.responseContent
+def jsonSlurper = new JsonSlurper().parseText(ResponseMessage)
+log.info(jsonSlurper.capital)
+assert jsonSlurper.capital!="Colombo"</scriptText></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder/></con:restRequest></con:config></con:testStep><con:testStep type="groovy" name="Groovy Script" id="4e02a32b-7f41-41ff-92d7-772678f1e9eb"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+import jxl.*
+import jxl.write.*
+import groovy.json.JsonSlurper
+
+
+Workbook work=Workbook.getWorkbook(new File("C:\\Users\\Shree\\Documents\\Book5.xls"));
+Sheet sh=work.getSheet(0)
+rc=sh.getRows();
+cc=sh.getColumns();
+log.info"rows count="+rc
+log.info "columns count"+cc
+
+for(int i=1;i&lt;rc;i++)
+{
+	for(j=0;j&lt;cc;j++){
+	Cell var=sh.getCell(j,i);
+		//log.info var.getContents()
+		if(j==0){
+		currencyName=var.getContents();
+		log.info "currency name is:"+currencyName
+		}
+		if(j==1){
+			capital=var.getContents();
+			log.info("capital:"+capital);
+		}
+	}
+	def tCase=testRunner.testCase.testSuite.testCases["TestCase 1"]
+	def addResult=tCase.testSteps["GET REQUEST"]
+     addResult.run(testRunner,context)
+
+     def responseJson=addResult.testRequest.response.responseContent
+	log.info(responseJson)
+	def json=new JsonSlurper()
+	def object=json.parseText(responseJson)
+	log.info("the capital in json response is:" +object.capital)
+	
+
+     
+}
+
+</script></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
